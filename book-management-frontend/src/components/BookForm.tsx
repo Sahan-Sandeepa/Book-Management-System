@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useBooks } from "../hooks/useBooks";
+import { useCategories } from "../hooks/useCategories";
+import { Category } from "../types";
 
 export default function BookForm({
   book,
@@ -16,14 +18,25 @@ export default function BookForm({
   const [author, setAuthor] = useState(book?.author ?? "");
   const [price, setPrice] = useState(book?.price ?? 0);
   const [stock, setStock] = useState(book?.stock ?? 0);
+  const [error, setError] = useState("");
   const [bookCategoryId, setBookCategoryId] = useState(
     book?.bookCategoryId ?? null
   );
-
   const { createBook, updateBook } = useBooks();
+  const { data: categories = [] } = useCategories();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!title.trim() || !author.trim()) {
+      setError("Title and author are required");
+      return;
+    }
+    if (isNaN(Number(price)) || isNaN(Number(stock))) {
+      setError("Price and stock must be valid numbers");
+      return;
+    }
+
     const payload = {
       title,
       author,
@@ -68,6 +81,8 @@ export default function BookForm({
         Price:
         <input
           type="number"
+          min="0"
+          step="0.01"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           required
@@ -90,6 +105,18 @@ export default function BookForm({
           onChange={(e) => setBookCategoryId(Number(e.target.value))}
           required
         />
+        <select
+          value={bookCategoryId ?? ""}
+          onChange={(e) => setBookCategoryId(Number(e.target.value))}
+          required
+        >
+          <option value="">Select category</option>
+          {categories.map((c: Category) => (
+            <option key={c.id} value={c.id}>
+              {c.name}
+            </option>
+          ))}
+        </select>
       </label>
 
       <div style={{ marginTop: 12 }}>
@@ -98,6 +125,7 @@ export default function BookForm({
           Cancel
         </button>
       </div>
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </form>
   );
 }

@@ -3,14 +3,14 @@ import { BorrowService } from './borrow.service';
 
 @Controller('borrow')
 export class BorrowController {
-  constructor(private borrowService: BorrowService) {}
+  constructor(private readonly borrowService: BorrowService) {}
 
-  @Post('borrow-book')
-  async borrowBook(@Body() body: { userId: number; bookId: number }) {
+  @Post()
+  async borrow(@Body() body: { userId: number; bookId: number }) {
     return this.borrowService.borrowBook(body.userId, body.bookId);
   }
 
-  @Post('return-book')
+  @Post('return')
   async returnBook(@Body() body: { userId: number; bookId: number }) {
     return this.borrowService.returnBook(body.userId, body.bookId);
   }

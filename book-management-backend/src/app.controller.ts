@@ -1,12 +1,13 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Redirect } from '@nestjs/common';
 import { CategoriesService } from './categories/categories.service';
 import { BorrowService } from './borrow/borrow.service';
 
 @Controller()
 export class AppController {
   @Get()
-  healthCheck() {
-    return { status: 'ok', message: 'Server is running' };
+  @Redirect()
+  redirectToFrontend() {
+    return { url: process.env.FRONTEND_URL || 'http://localhost:5173/' };
   }
 }
 

@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useBooks } from "../hooks/useBooks";
 import BookForm from "../components/BookForm";
+import { Empty, Loader } from "../components/Utility";
 
 export default function BookEditPage() {
   const { id } = useParams();
@@ -10,8 +11,8 @@ export default function BookEditPage() {
 
   const book = booksQuery.data?.find((b) => b.id === bookId);
 
-  if (booksQuery.isLoading) return <div>Loading...</div>;
-  if (!book) return <div>Book not found</div>;
+  if (booksQuery.isLoading) return <Loader />;
+  if (!book) return <Empty message="No books found." />;
 
   return (
     <div style={{ padding: 20 }}>
