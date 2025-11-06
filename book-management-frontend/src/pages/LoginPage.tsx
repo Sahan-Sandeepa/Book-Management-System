@@ -20,7 +20,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div>
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h2>Login</h2>
       <AuthForm onSubmit={handleLogin} isLogin />
     </div>
