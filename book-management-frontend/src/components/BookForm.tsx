@@ -19,11 +19,20 @@ export default function BookForm({
   const [bookCategoryId, setBookCategoryId] = useState(
     book?.bookCategoryId ?? null
   );
-
   const { createBook, updateBook } = useBooks();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!title.trim() || !author.trim()) {
+      alert("Title and Author are required");
+      return;
+    }
+    if (isNaN(Number(price)) || isNaN(Number(stock))) {
+      alert("Price and Stock must be valid numbers");
+      return;
+    }
+
     const payload = {
       title,
       author,
@@ -68,6 +77,8 @@ export default function BookForm({
         Price:
         <input
           type="number"
+          min="0"
+          step="0.01"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           required
