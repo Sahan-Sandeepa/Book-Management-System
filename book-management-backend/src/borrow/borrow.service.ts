@@ -10,16 +10,13 @@ export class BorrowService {
   constructor(private prisma: PrismaService) {}
 
   async borrowBook(userId: number, bookId: number) {
-    // Check if book exists
     const book = await this.prisma.book.findUnique({ where: { id: bookId } });
     if (!book) throw new NotFoundException('Book not found');
 
-    // Check stock availability
     if (book.stock <= 0) {
       throw new BadRequestException('Book is out of stock');
     }
 
-    // Check if user borrowed this book and hasn’t returned it
     const existingRecord = await this.prisma.borrowRecord.findFirst({
       where: { userId, bookId, isReturned: false },
     });
@@ -28,8 +25,6 @@ export class BorrowService {
         'User already borrowed this book and has not returned it',
       );
     }
-
-    // Create a new borrow record
     const dueDate = new Date();
     dueDate.setDate(dueDate.getDate() + 14); // 2-week borrowing period
 
@@ -41,7 +36,6 @@ export class BorrowService {
       },
     });
 
-    // Decrease stock
     await this.prisma.book.update({
       where: { id: bookId },
       data: { stock: { decrement: 1 } },
@@ -54,7 +48,6 @@ export class BorrowService {
   }
 
   async returnBook(userId: number, bookId: number) {
-    // Find existing borrow record
     const record = await this.prisma.borrowRecord.findFirst({
       where: { userId, bookId, isReturned: false },
     });
@@ -82,7 +75,6 @@ export class BorrowService {
     return { message: 'Book returned successfully' };
   }
 
-  // List all borrowed books of a user
   async getUserBorrowedBooks(userId: number) {
     return this.prisma.borrowRecord.findMany({
       where: { userId, isReturned: false },
