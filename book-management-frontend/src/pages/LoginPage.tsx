@@ -1,31 +1,28 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthForm from "../components/AuthForm";
 import { api } from "../api/endpoints";
+import { useAuthStore } from "../store/useAuthStore";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const login = useAuthStore((s) => s.login);
 
   const handleLogin = async (data: any) => {
     try {
       const res = await api.auth.login(data);
       const { token, user } = res.data;
 
-      sessionStorage.setItem("token", token);
-      sessionStorage.setItem("user", JSON.stringify(user));
-
+      login(user, token);
       navigate("/books");
     } catch (err: any) {
-      alert(err.message || "Login failed. Please check your credentials.");
+      alert(err.message || "Login failed");
     }
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
+    <div>
       <h2>Login</h2>
       <AuthForm onSubmit={handleLogin} isLogin />
-      <p style={{ marginTop: "10px" }}>
-        Don’t have an account? <Link to="/register">Create one here</Link>
-      </p>
     </div>
   );
 }
