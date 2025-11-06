@@ -1,0 +1,59 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f7f7f7;
+  color: #222;
+}
+.container {
+  padding: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.nav {
+  padding: 12px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.card {
+  background: #fff;
+  padding: 12px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+.card-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.form {
+  background: #fff;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+.err {
+  color: #b00020;
+  font-size: 0.85rem;
+}
+.oos {
+  color: #b00020;
+  font-weight: 700;
+  margin-left: 6px;
+}
+button {
+  padding: 6px 10px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
