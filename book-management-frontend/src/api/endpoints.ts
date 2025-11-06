@@ -23,4 +23,14 @@ export const api = {
     return: (payload: { userId: number; bookId: number }) =>
       apiClient.post("/borrow/return", payload),
   },
+
+  auth: {
+    register: (payload: { name: string; email: string; password: string }) =>
+      apiClient.post("/auth/register", payload),
+
+    login: (payload: { email: string; password: string }) =>
+      apiClient.post("/auth/login", payload),
+
+    getProfile: () => apiClient.get("/auth/profile"),
+  },
 };
