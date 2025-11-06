@@ -9,7 +9,7 @@ import { PrismaModule } from 'src/prisma/prisma.module';
   imports: [
     PrismaModule,
     JwtModule.register({
-      secret: 'yourSecretKey',
+      secret: process.env.SECRET_KEY,
       signOptions: { expiresIn: '1h' },
     }),
   ],
