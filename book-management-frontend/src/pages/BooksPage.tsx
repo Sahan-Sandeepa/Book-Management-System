@@ -162,7 +162,7 @@ export default function BooksPage() {
           <tr style={{ textAlign: "center", height: "50px" }}>
             <th style={{ padding: "10px" }}>Title</th>
             <th style={{ padding: "10px" }}>Author</th>
-            <th style={{ padding: "10px" }}>Price</th>
+            <th style={{ padding: "10px" }}>Price(LKR)</th>
             <th style={{ padding: "10px" }}>Stock</th>
             <th style={{ padding: "10px" }}>Category</th>
             <th style={{ padding: "10px" }}>Actions</th>

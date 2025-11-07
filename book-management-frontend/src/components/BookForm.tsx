@@ -107,6 +107,7 @@ const BookForm = ({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
+          maxLength={100}
         />
       </label>
 
@@ -125,8 +126,8 @@ const BookForm = ({
         <input
           style={inputStyle}
           type="number"
-          min="0"
-          step="0.01"
+          min={0}
+          step={0.01}
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           required
@@ -138,6 +139,8 @@ const BookForm = ({
         <input
           style={inputStyle}
           type="number"
+          min={0}
+          step={1}
           value={stock}
           onChange={(e) => setStock(e.target.value)}
           required
