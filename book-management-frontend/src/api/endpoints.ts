@@ -10,7 +10,8 @@ export const api = {
     create: (payload: any) => apiClient.post("/books", payload),
     update: (id: number, payload: any) =>
       apiClient.put(`/books/${id}`, payload),
-    delete: (id: number) => apiClient.delete(`/books/${id}`),
+    delete: ({ id, force }: { id: number; force?: boolean }) =>
+      apiClient.delete(`/books/${id}`, { params: { force } }),
   },
 
   categories: {

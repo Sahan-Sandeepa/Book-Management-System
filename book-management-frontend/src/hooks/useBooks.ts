@@ -43,8 +43,8 @@ export function useBooks() {
 
   // Delete a book
   const deleteBook = useMutation({
-    mutationFn: async (id: number) => {
-      const res = await endpoints.books.delete(id);
+    mutationFn: async ({ id, force }: { id: number; force?: boolean }) => {
+      const res = await endpoints.books.delete({ id, force });
       return res.data;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["books"] }),
