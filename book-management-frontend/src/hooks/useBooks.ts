@@ -5,7 +5,6 @@ import { Book } from "../types";
 export function useBooks() {
   const qc = useQueryClient();
 
-  // Fetch all books
   const booksQuery = useQuery({
     queryKey: ["books"],
     queryFn: async () => {
@@ -14,7 +13,6 @@ export function useBooks() {
     },
   });
 
-  // Create a book
   const createBook = useMutation({
     mutationFn: async (payload: Partial<Book>) => {
       const res = await endpoints.books.create(payload);
@@ -26,7 +24,6 @@ export function useBooks() {
     },
   });
 
-  // Update a book
   const updateBook = useMutation({
     mutationFn: async ({
       id,
@@ -41,7 +38,6 @@ export function useBooks() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["books"] }),
   });
 
-  // Delete a book
   const deleteBook = useMutation({
     mutationFn: async ({ id, force }: { id: number; force?: boolean }) => {
       const res = await endpoints.books.delete({ id, force });
