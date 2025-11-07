@@ -71,10 +71,22 @@ export default function BooksPage() {
   const [editing, setEditing] = useState<any>(null);
   const [creating, setCreating] = useState(false);
 
-  const handleDelete = (id: number) => {
-    // eslint-disable-next-line no-restricted-globals
-    if (!confirm("Delete this book?")) return;
-    deleteBook.mutate(id);
+  const handleDelete = async (id: number) => {
+    try {
+      const res = await deleteBook.mutateAsync({ id });
+
+      if (res?.requiresConfirmation) {
+        // eslint-disable-next-line no-restricted-globals
+        const confirmed = confirm(res.message);
+        if (confirmed) {
+          await deleteBook.mutateAsync({ id, force: true });
+        }
+      } else {
+        alert("Book deleted successfully.");
+      }
+    } catch (err: any) {
+      alert(err.message || "Failed to delete book");
+    }
   };
 
   const filteredBooks = selectedCategory

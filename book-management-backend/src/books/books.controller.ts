@@ -43,7 +43,8 @@ export class BooksController {
 
   @HttpCode(HttpStatus.OK)
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.booksService.delete(Number(id));
+  async delete(@Param('id') id: string, @Query('force') force?: string) {
+    const forceDelete = force === 'true';
+    return this.booksService.delete(Number(id), forceDelete);
   }
 }

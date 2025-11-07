@@ -43,8 +43,26 @@ export class BooksService {
     }
   }
 
-  async delete(id: number) {
+  async delete(id: number, forceDelete = false) {
     try {
+      // Count all borrow records for this book
+      const borrowCount = await this.prisma.borrowRecord.count({
+        where: { bookId: id },
+      });
+
+      // If there are borrow records and user has not confirmed deletion
+      if (borrowCount > 0 && !forceDelete) {
+        return {
+          message:
+            'This book has borrow records. Do you want to delete it along with all related records?',
+          requiresConfirmation: true,
+        };
+      }
+
+      // If user confirmed, delete borrow records first
+      if (borrowCount > 0 && forceDelete) {
+        await this.prisma.borrowRecord.deleteMany({ where: { bookId: id } });
+      }
       return await this.prisma.book.delete({ where: { id } });
     } catch (error) {
       throw new BadRequestException(`Failed to delete book: ${error.message}`);
